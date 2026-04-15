@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>1:1 Raissa ↔ Katia</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose:        #bc5a64;
+    --rose-dark:   #7a2d38;
+    --rose-deep:   #4a1520;
+    --rose-light:  #f7eced;
+    --rose-mid:    #e8c0c5;
+    --rose-border: #d4a0a8;
+    --rose-muted:  #a06068;
+    --rose-hover:  #f0d4d8;
+    --bg:          #fff9f9;
+    --surface:     #ffffff;
+    --text:        #2a1215;
+    --text-sub:    #7a4a50;
+    --radius-sm:   6px;
+    --radius-md:   10px;
+    --radius-lg:   14px;
+    --font-sans:   'DM Sans', sans-serif;
+    --font-serif:  'DM Serif Display', serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── top bar ── */
+  .topbar {
+    height: 52px;
+    background: var(--rose-deep);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .topbar-title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: var(--rose-light);
+    letter-spacing: 0.01em;
+  }
+  .topbar-sep { flex: 1; }
+  .topbar-user {
+    font-size: 12px;
+    color: var(--rose-mid);
+  }
+
+  /* ── layout ── */
+  .layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    height: calc(100vh - 52px);
+  }
+
+  /* ── sidebar ── */
+  .sidebar {
+    width: 256px;
+    background: var(--rose-light);
+    border-right: 1px solid var(--rose-border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .sidebar-nav {
+    padding: 12px 10px 6px;
+    border-bottom: 1px solid var(--rose-border);
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 10px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--rose-muted);
+    font-weight: 400;
+    transition: background 0.12s, color 0.12s;
+    user-select: none;
+  }
+  .nav-item:hover { background: var(--rose-hover); color: var(--rose-dark); }
+  .nav-item.active {
+    background: var(--surface);
+    color: var(--rose-dark);
+    font-weight: 500;
+    border: 1px solid var(--rose-border);
+  }
+  .nav-icon { font-size: 14px; width: 18px; text-align: center; }
+
+  .sessions-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 8px;
+  }
+  .sessions-scroll::-webkit-scrollbar { width: 4px; }
+  .sessions-scroll::-webkit-scrollbar-thumb { background: var(--rose-border); border-radius: 4px; }
+
+  .group-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rose-muted);
+    padding: 8px 10px 4px;
+  }
+  .session-item {
+    padding: 9px 11px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    margin-bottom: 2px;
+    border: 1px solid transparent;
+    transition: all 0.12s;
+  }
+  .session-item:hover { background: var(--rose-hover); }
+  .session-item.active {
+    background: var(--surface);
+    border-color: var(--rose-border);
+  }
+  .session-item-date { font-size: 12px; font-weight: 500; color: var(--rose-dark); }
+  .session-item-preview { font-size: 11px; color: var(--rose-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .session-item-cal {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    margin-top: 5px;
+    background: var(--surface);
+    border: 1px solid var(--rose-border);
+    color: var(--rose);
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+
+  .new-btn {
+    margin: 8px;
+    padding: 9px;
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--rose-border);
+    background: transparent;
+    color: var(--rose-muted);
+    font-size: 12px;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.12s;
+  }
+  .new-btn:hover { background: var(--rose-hover); color: var(--rose-dark); }
+
+  /* ── main ── */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  /* search bar */
+  .search-bar {
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--rose-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .search-input {
+    flex: 1;
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-md);
+    padding: 7px 12px;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--rose); }
+  .tag-filter { display: flex; gap: 6px; }
+  .tag-btn {
+    padding: 5px 11px;
+    border-radius: 20px;
+    border: 1px solid var(--rose-border);
+    background: transparent;
+    font-size: 11px;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    color: var(--rose-muted);
+    transition: all 0.12s;
+  }
+  .tag-btn:hover { background: var(--rose-hover); color: var(--rose-dark); }
+  .tag-btn.active { background: var(--rose); color: white; border-color: var(--rose); }
+
+  /* session header */
+  .session-header {
+    padding: 16px 24px 14px;
+    border-bottom: 1px solid var(--rose-border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .session-header-left {}
+  .session-h-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    color: var(--rose-deep);
+    letter-spacing: 0.01em;
+  }
+  .session-h-meta { font-size: 12px; color: var(--rose-muted); margin-top: 3px; }
+  .cal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--rose);
+    background: var(--rose-light);
+    border: 1px solid var(--rose-border);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 7px;
+    text-decoration: none;
+    transition: background 0.12s;
+  }
+  .cal-link:hover { background: var(--rose-hover); }
+  .header-actions { display: flex; gap: 8px; }
+  .btn {
+    padding: 7px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--rose-border);
+    background: transparent;
+    color: var(--rose-muted);
+    font-size: 12px;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .btn:hover { background: var(--rose-hover); color: var(--rose-dark); }
+  .btn-primary {
+    background: var(--rose);
+    color: white;
+    border-color: var(--rose);
+  }
+  .btn-primary:hover { opacity: 0.88; }
+
+  /* content area */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 24px;
+  }
+  .content::-webkit-scrollbar { width: 4px; }
+  .content::-webkit-scrollbar-thumb { background: var(--rose-border); border-radius: 4px; }
+
+  /* section cards */
+  .scard {
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .scard:focus-within { box-shadow: 0 0 0 2px var(--rose-mid); }
+  .scard-head {
+    padding: 9px 14px;
+    background: var(--rose-light);
+    border-bottom: 1px solid var(--rose-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .scard-title { font-size: 12px; font-weight: 500; color: var(--rose-dark); flex: 1; }
+  .scard-toggle { font-size: 11px; color: var(--rose-muted); }
+  .scard-body { padding: 12px 14px; }
+
+  textarea.field {
+    width: 100%;
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--bg);
+    resize: none;
+    min-height: 72px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  textarea.field:focus { border-color: var(--rose); background: var(--surface); }
+
+  /* steps */
+  .steps-list { display: flex; flex-direction: column; gap: 6px; }
+  .step-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 11px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--rose-border);
+    background: var(--rose-light);
+    transition: background 0.12s;
+  }
+  .step-row:hover { background: var(--rose-hover); }
+  .step-cb {
+    width: 17px;
+    height: 17px;
+    border-radius: 5px;
+    border: 1.5px solid var(--rose-border);
+    flex-shrink: 0;
+    cursor: pointer;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    font-size: 10px;
+    transition: all 0.15s;
+  }
+  .step-cb.done { background: var(--rose); border-color: var(--rose); color: white; }
+  .step-text { font-size: 13px; flex: 1; line-height: 1.5; }
+  .step-text.done { text-decoration: line-through; color: var(--rose-muted); }
+  .step-owner-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid var(--rose-border);
+    background: var(--surface);
+    color: var(--rose-muted);
+    flex-shrink: 0;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+  .step-del {
+    font-size: 11px;
+    color: var(--rose-border);
+    cursor: pointer;
+    padding: 0 3px;
+    transition: color 0.12s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-del:hover { color: var(--rose); }
+
+  .add-step-row { display: flex; gap: 6px; margin-top: 8px; }
+  .add-step-inp {
+    flex: 1;
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-md);
+    padding: 7px 11px;
+    font-size: 13px;
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .add-step-inp:focus { border-color: var(--rose); }
+  select.owner-sel {
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-md);
+    padding: 7px 9px;
+    font-size: 12px;
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--rose-dark);
+    outline: none;
+    cursor: pointer;
+  }
+
+  /* views */
+  .view { display: none; flex-direction: column; height: 100%; overflow: hidden; }
+  .view.active { display: flex; }
+
+  /* dashboard */
+  .dash-content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .dash-content::-webkit-scrollbar { width: 4px; }
+  .dash-content::-webkit-scrollbar-thumb { background: var(--rose-border); border-radius: 4px; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 14px; }
+  .metric-card {
+    background: var(--rose-light);
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+  }
+  .metric-lbl { font-size: 11px; color: var(--rose-muted); margin-bottom: 5px; }
+  .metric-val { font-size: 28px; font-weight: 500; color: var(--rose-dark); font-family: var(--font-serif); }
+  .metric-sub { font-size: 11px; color: var(--rose-muted); margin-top: 3px; }
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+  .chart-title { font-size: 12px; font-weight: 500; color: var(--rose-dark); margin-bottom: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .bar-lbl { font-size: 11px; color: var(--rose-muted); width: 60px; text-align: right; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 8px; background: var(--rose-light); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+  .bar-count { font-size: 11px; color: var(--rose-muted); width: 20px; }
+
+  /* calendar view */
+  .cal-content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+  .cal-content::-webkit-scrollbar { width: 4px; }
+  .cal-content::-webkit-scrollbar-thumb { background: var(--rose-border); border-radius: 4px; }
+  .cal-heading { font-family: var(--font-serif); font-size: 18px; color: var(--rose-deep); margin-bottom: 4px; }
+  .cal-sub { font-size: 12px; color: var(--rose-muted); margin-bottom: 14px; }
+  .cal-status {
+    background: var(--rose-light);
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-md);
+    padding: 9px 14px;
+    font-size: 12px;
+    color: var(--rose);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .cal-dot-live { width: 7px; height: 7px; border-radius: 50%; background: var(--rose); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .cal-event-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--rose-border);
+    background: var(--rose-light);
+    margin-bottom: 8px;
+  }
+  .cal-ev-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .cal-ev-info { flex: 1; }
+  .cal-ev-title { font-size: 13px; font-weight: 500; color: var(--rose-dark); }
+  .cal-ev-time { font-size: 11px; color: var(--rose-muted); margin-top: 2px; }
+  .linked-pill {
+    font-size: 10px;
+    color: var(--rose);
+    background: var(--surface);
+    border: 1px solid var(--rose-border);
+    padding: 2px 8px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+  .cal-open {
+    font-size: 11px;
+    color: var(--rose);
+    border: 1px solid var(--rose-border);
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 3px 9px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.12s;
+    flex-shrink: 0;
+  }
+  .cal-open:hover { background: var(--rose-hover); }
+
+  .cal-placeholder {
+    margin-top: 14px;
+    padding: 18px;
+    border: 1px dashed var(--rose-border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    color: var(--rose-muted);
+  }
+  .cal-placeholder-title { font-size: 13px; font-weight: 500; color: var(--rose-dark); margin-bottom: 6px; }
+  .cal-placeholder-sub { font-size: 12px; line-height: 1.6; }
+  .cal-placeholder-url {
+    margin-top: 10px;
+    font-size: 11px;
+    background: var(--rose-light);
+    border: 1px solid var(--rose-border);
+    border-radius: var(--radius-md);
+    padding: 6px 10px;
+    color: var(--rose-muted);
+    font-family: monospace;
+    word-break: break-all;
+  }
+
+  /* toast */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 24px;
+    background: var(--rose-deep);
+    color: var(--rose-light);
+    padding: 9px 16px;
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* empty state */
+  .empty { text-align: center; padding: 40px 20px; color: var(--rose-muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-title">1:1 Raissa ↔ Katia</span>
+  <span class="topbar-sep"></span>
+  <span class="topbar-user">raissa.martins · katia.amaral · Nubank</span>
+</div>
+
+<div class="layout">
+
+  <!-- sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-nav">
+      <div class="nav-item active" onclick="showView('sessions',this)"><span class="nav-icon">📋</span> Sessões</div>
+      <div class="nav-item" onclick="showView('dashboard',this)"><span class="nav-icon">📊</span> Evolução</div>
+      <div class="nav-item" onclick="showView('calendar',this)"><span class="nav-icon">📅</span> Calendário</div>
+    </div>
+    <div class="sessions-scroll" id="sessions-scroll">
+      <div class="group-label">Abril 2026</div>
+      <div class="session-item active" onclick="loadSession(0,this)">
+        <div class="session-item-date">9 de abril</div>
+        <div class="session-item-preview">Primeira 1:1 com Katia</div>
+        <div class="session-item-cal">📅 Google Meet · 13h15</div>
+      </div>
+    </div>
+    <button class="new-btn" onclick="newSession()">+ Nova sessão</button>
+  </div>
+
+  <!-- main -->
+  <div class="main">
+
+    <!-- SESSIONS VIEW -->
+    <div class="view active" id="view-sessions">
+      <div class="search-bar">
+        <input class="search-input" placeholder="Buscar nas sessões…" oninput="filterSessions(this.value)"/>
+        <div class="tag-filter">
+          <button class="tag-btn active" onclick="setTag(this,'todos')">Todos</button>
+          <button class="tag-btn" onclick="setTag(this,'feedback')">Feedback</button>
+          <button class="tag-btn" onclick="setTag(this,'bloqueio')">Bloqueio</button>
+          <button class="tag-btn" onclick="setTag(this,'okr')">OKR</button>
+        </div>
+      </div>
+      <div class="session-header">
+        <div class="session-header-left">
+          <div class="session-h-title" id="sh-title">9 de abril de 2026</div>
+          <div class="session-h-meta" id="sh-meta">1:1 - Raissa &lt;&gt; Katia · 45 min · Google Meet</div>
+          <a class="cal-link" id="sh-callink"
+             href="https://www.google.com/calendar/event?eid=N2ZyYjE2cHZnaXRmYXRucmt2dWVwZGdsbWEgcmFpc3NhLm1hcnRpbnNAbnViYW5rLmNvbS5icg&ctz=America/Sao_Paulo"
+             target="_blank">📅 Abrir no Google Calendar ↗</a>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="saveSession()">Salvar</button>
+        </div>
+      </div>
+      <div class="content" id="content">
+
+        <div class="scard">
+          <div class="scard-head" onclick="toggle('notes')">
+            <span style="font-size:14px">📝</span>
+            <span class="scard-title">Notas livres</span>
+            <span class="scard-toggle" id="notes-t">▾</span>
+          </div>
+          <div class="scard-body" id="notes-b">
+            <textarea class="field" id="notes-f" rows="4" placeholder="Anotações da conversa…"></textarea>
+          </div>
+        </div>
+
+        <div class="scard">
+          <div class="scard-head" onclick="toggle('points')">
+            <span style="font-size:14px">🎯</span>
+            <span class="scard-title">Pontos principais</span>
+            <span class="scard-toggle" id="points-t">▾</span>
+          </div>
+          <div class="scard-body" id="points-b">
+            <textarea class="field" id="points-f" rows="3" placeholder="Principais tópicos discutidos…"></textarea>
+          </div>
+        </div>
+
+        <div class="scard">
+          <div class="scard-head" onclick="toggle('feedback')">
+            <span style="font-size:14px">💬</span>
+            <span class="scard-title">Feedbacks</span>
+            <span class="scard-toggle" id="feedback-t">▾</span>
+          </div>
+          <div class="scard-body" id="feedback-b">
+            <textarea class="field" id="feedback-f" rows="3" placeholder="Feedbacks recebidos ou dados…"></textarea>
+          </div>
+        </div>
+
+        <div class="scard">
+          <div class="scard-head" onclick="toggle('blockers')">
+            <span style="font-size:14px">🚧</span>
+            <span class="scard-title">Bloqueios</span>
+            <span class="scard-toggle" id="blockers-t">▾</span>
+          </div>
+          <div class="scard-body" id="blockers-b">
+            <textarea class="field" id="blockers-f" rows="3" placeholder="Impedimentos e bloqueios…"></textarea>
+          </div>
+        </div>
+
+        <div class="scard">
+          <div class="scard-head" onclick="toggle('steps')">
+            <span style="font-size:14px">✅</span>
+            <span class="scard-title">Próximos passos</span>
+            <span class="scard-toggle" id="steps-t">▾</span>
+          </div>
+          <div class="scard-body" id="steps-b">
+            <div class="steps-list" id="steps-list"></div>
+            <div class="add-step-row">
+              <input class="add-step-inp" id="new-step" placeholder="Descreva o próximo passo…"
+                     onkeydown="if(event.key==='Enter')addStep()"/>
+              <select class="owner-sel" id="owner-sel">
+                <option>Raissa</option>
+                <option>Katia</option>
+              </select>
+              <button class="btn btn-primary" onclick="addStep()">+ Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /sessions view -->
+
+    <!-- DASHBOARD VIEW -->
+    <div class="view" id="view-dashboard">
+      <div class="dash-content">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-lbl">Sessões registradas</div>
+            <div class="metric-val" id="d-sessions">1</div>
+            <div class="metric-sub">desde abr 2026</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Próximos passos</div>
+            <div class="metric-val" id="d-steps">0</div>
+            <div class="metric-sub">definidos no total</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-lbl">Concluídos</div>
+            <div class="metric-val" id="d-done">0</div>
+            <div class="metric-sub">marcados como ok</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Próximos passos por responsável</div>
+          <div class="bar-row">
+            <span class="bar-lbl">Raissa</span>
+            <div class="bar-track"><div class="bar-fill" id="bar-r" style="width:0%;background:var(--rose)"></div></div>
+            <span class="bar-count" id="cnt-r">0</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-lbl">Katia</span>
+            <div class="bar-track"><div class="bar-fill" id="bar-k" style="width:0%;background:var(--rose-mid)"></div></div>
+            <span class="bar-count" id="cnt-k">0</span>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Histórico de sessões</div>
+          <div id="hist-list" style="font-size:13px;color:var(--text-sub)"></div>
+        </div>
+      </div>
+    </div><!-- /dashboard -->
+
+    <!-- CALENDAR VIEW -->
+    <div class="view" id="view-calendar">
+      <div class="cal-content">
+        <div class="cal-heading">Google Calendar</div>
+        <div class="cal-sub">Eventos "1:1 - Raissa &lt;&gt; Katia" encontrados na sua agenda</div>
+        <div class="cal-status">
+          <div class="cal-dot-live"></div>
+          Conectado · raissa.martins@nubank.com.br · Organizado por katia.amaral@nubank.com.br
+        </div>
+
+        <div class="cal-event-row">
+          <div class="cal-ev-dot" style="background:var(--rose)"></div>
+          <div class="cal-ev-info">
+            <div class="cal-ev-title">1:1 - Raissa &lt;&gt; Katia</div>
+            <div class="cal-ev-time">9 de abril de 2026 · 13h15–14h00 · Google Meet</div>
+          </div>
+          <span class="linked-pill">✓ Vinculado</span>
+          <a class="cal-open"
+             href="https://www.google.com/calendar/event?eid=N2ZyYjE2cHZnaXRmYXRucmt2dWVwZGdsbWEgcmFpc3NhLm1hcnRpbnNAbnViYW5rLmNvbS5icg&ctz=America/Sao_Paulo"
+             target="_blank">Abrir ↗</a>
+        </div>
+
+        <div class="cal-placeholder">
+          <div class="cal-placeholder-title">Compartilhar este sistema com a Katia</div>
+          <div class="cal-placeholder-sub">
+            Para que as duas acessem o mesmo documento, hospede este arquivo em um serviço como
+            <strong>GitHub Pages</strong>, <strong>Netlify</strong> ou <strong>Vercel</strong>
+            e cole o link na descrição do evento do calendário.<br><br>
+            Após hospedar, o link ficará assim:
+          </div>
+          <div class="cal-placeholder-url">https://seu-dominio.com/1on1-raissa-katia</div>
+          <div style="font-size:11px;color:var(--rose-muted);margin-top:10px">
+            Para sincronização em tempo real entre as duas, será necessário um backend (ex: Firebase ou Supabase).
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /calendar -->
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<div class="toast" id="toast">Salvo ✓</div>
+
+<script>
+// ── data ──────────────────────────────────────────────────
+const sessions = [
+  {
+    id: 0,
+    title: "9 de abril de 2026",
+    meta: "1:1 - Raissa <> Katia · 45 min · Google Meet",
+    calLink: "https://www.google.com/calendar/event?eid=N2ZyYjE2cHZnaXRmYXRucmt2dWVwZGdsbWEgcmFpc3NhLm1hcnRpbnNAbnViYW5rLmNvbS5icg&ctz=America/Sao_Paulo",
+    notes: "", points: "", feedback: "", blockers: "",
+    steps: []
+  }
+];
+let curr = 0;
+
+// ── load / save ───────────────────────────────────────────
+function loadSession(i, el) {
+  curr = i;
+  document.querySelectorAll('.session-item').forEach(s => s.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const s = sessions[i];
+  document.getElementById('sh-title').textContent = s.title;
+  document.getElementById('sh-meta').innerHTML = s.meta.replace('<>','&lt;&gt;');
+  const cl = document.getElementById('sh-callink');
+  if (s.calLink) { cl.href = s.calLink; cl.style.display = 'inline-flex'; }
+  else cl.style.display = 'none';
+  document.getElementById('notes-f').value = s.notes;
+  document.getElementById('points-f').value = s.points;
+  document.getElementById('feedback-f').value = s.feedback;
+  document.getElementById('blockers-f').value = s.blockers;
+  renderSteps();
+}
+
+function saveSession() {
+  sessions[curr].notes    = document.getElementById('notes-f').value;
+  sessions[curr].points   = document.getElementById('points-f').value;
+  sessions[curr].feedback = document.getElementById('feedback-f').value;
+  sessions[curr].blockers = document.getElementById('blockers-f').value;
+  showToast('Salvo ✓');
+  updateDash();
+}
+
+// ── steps ─────────────────────────────────────────────────
+function renderSteps() {
+  const list = document.getElementById('steps-list');
+  list.innerHTML = '';
+  sessions[curr].steps.forEach((st, i) => {
+    const div = document.createElement('div');
+    div.className = 'step-row';
+    div.innerHTML = `
+      <div class="step-cb ${st.done ? 'done' : ''}" onclick="toggleStep(${i})">${st.done ? '✓' : ''}</div>
+      <span class="step-text ${st.done ? 'done' : ''}">${escHtml(st.text)}</span>
+      <span class="step-owner-badge">${escHtml(st.owner)}</span>
+      <span class="step-del" onclick="delStep(${i})" title="Remover">✕</span>`;
+    list.appendChild(div);
+  });
+  updateDash();
+}
+
+function toggleStep(i) {
+  sessions[curr].steps[i].done = !sessions[curr].steps[i].done;
+  renderSteps();
+}
+
+function delStep(i) {
+  sessions[curr].steps.splice(i, 1);
+  renderSteps();
+}
+
+function addStep() {
+  const inp = document.getElementById('new-step');
+  const owner = document.getElementById('owner-sel').value;
+  const val = inp.value.trim();
+  if (!val) return;
+  sessions[curr].steps.push({ text: val, owner, done: false });
+  inp.value = '';
+  renderSteps();
+}
+
+// ── sections collapse ────────────────────────────────────
+function toggle(id) {
+  const body = document.getElementById(id + '-b');
+  const tog  = document.getElementById(id + '-t');
+  const open = body.style.display !== 'none' && body.style.display !== '';
+  body.style.display = open ? 'none' : '';
+  tog.textContent = open ? '▸' : '▾';
+}
+
+// ── view switching ────────────────────────────────────────
+function showView(v, navEl) {
+  document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + v).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+  if (v === 'dashboard') updateDash();
+}
+
+// ── dashboard ─────────────────────────────────────────────
+function updateDash() {
+  const total = sessions.reduce((a, s) => a + s.steps.length, 0);
+  const done  = sessions.reduce((a, s) => a + s.steps.filter(x => x.done).length, 0);
+  const r     = sessions.reduce((a, s) => a + s.steps.filter(x => x.owner === 'Raissa').length, 0);
+  const k     = sessions.reduce((a, s) => a + s.steps.filter(x => x.owner === 'Katia').length, 0);
+  document.getElementById('d-sessions').textContent = sessions.length;
+  document.getElementById('d-steps').textContent = total;
+  document.getElementById('d-done').textContent = done;
+  const mx = Math.max(r, k, 1);
+  document.getElementById('bar-r').style.width = Math.round(r / mx * 100) + '%';
+  document.getElementById('bar-k').style.width = Math.round(k / mx * 100) + '%';
+  document.getElementById('cnt-r').textContent = r;
+  document.getElementById('cnt-k').textContent = k;
+  const hist = document.getElementById('hist-list');
+  if (sessions.length === 0) { hist.innerHTML = '<div class="empty">Nenhuma sessão ainda.</div>'; return; }
+  hist.innerHTML = sessions.map(s =>
+    `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--rose-border)">
+       <span>${escHtml(s.title)}</span>
+       <span style="color:var(--rose-muted)">${s.steps.length} passo${s.steps.length !== 1 ? 's' : ''}</span>
+     </div>`
+  ).join('');
+}
+
+// ── new session ────────────────────────────────────────────
+function newSession() {
+  const d = new Date();
+  const label = d.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const newS = { id: Date.now(), title: label, meta: "1:1 - Raissa <> Katia", calLink: null, notes: "", points: "", feedback: "", blockers: "", steps: [] };
+  sessions.unshift(newS);
+
+  const scroll = document.getElementById('sessions-scroll');
+  const firstGroup = scroll.querySelector('.group-label');
+  const div = document.createElement('div');
+  div.className = 'session-item active';
+  const idx = 0;
+  div.onclick = function(){ loadSession(0, this); };
+  div.innerHTML = `<div class="session-item-date">${label}</div><div class="session-item-preview">Nova sessão…</div>`;
+  scroll.insertBefore(div, firstGroup.nextSibling);
+
+  // update old item onclick indices
+  const allItems = scroll.querySelectorAll('.session-item');
+  allItems.forEach((el, i) => {
+    el.classList.toggle('active', i === 0);
+    el.onclick = (function(index){ return function(){ loadSession(index, this); }; })(i);
+  });
+
+  loadSession(0, scroll.querySelectorAll('.session-item')[0]);
+  showView('sessions');
+}
+
+// ── search / filter ────────────────────────────────────────
+function filterSessions(q) {
+  const items = document.querySelectorAll('#sessions-scroll .session-item');
+  items.forEach((el, i) => {
+    if (i >= sessions.length) return;
+    const s = sessions[i];
+    const hay = (s.title + s.notes + s.points + s.feedback + s.blockers).toLowerCase();
+    el.style.display = !q || hay.includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function setTag(btn) {
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── utils ─────────────────────────────────────────────────
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// init
+loadSession(0, document.querySelector('.session-item'));
+</script>
+</body>
+</html>
