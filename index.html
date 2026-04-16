@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>1:1 Raissa ↔ Katia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --nu:#820ad1;--nu-dark:#5c0899;--nu-deep:#3a0560;
+  --nu-light:#f3e8fd;--nu-mid:#c97ef5;--nu-border:#d8b4f8;--nu-hover:#ede9fe;
+  --white:#fff;--bg:#f8f7fb;
+  --text:#1a0a2e;--text-sub:#6b4f8a;--text-hint:#a78bca;--border:#e8ddf5;
+  --green:#16a34a;--green-light:#dcfce7;--green-border:#86efac;
+  --amber:#d97706;--amber-light:#fef3c7;--amber-border:#fcd34d;
+  --red:#dc2626;--red-light:#fee2e2;--red-border:#fca5a5;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+  --sw:260px;--th:56px;--rm:10px;--rl:14px;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;font-size:14px;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--nu-border);border-radius:4px}
+
+/* topbar */
+.tb{height:var(--th);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:14px;flex-shrink:0;position:sticky;top:0;z-index:50}
+.nu-m{width:28px;height:28px;background:var(--nu);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:500;color:#fff;flex-shrink:0}
+.tb-title{font-size:15px;font-weight:600;color:var(--nu-deep);letter-spacing:-.3px}
+.tb-sep{flex:1}
+.tb-badge{font-size:11px;font-family:var(--mono);color:#8b5cf6;background:var(--nu-light);border:1px solid var(--nu-border);padding:3px 10px;border-radius:20px}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--nu),var(--nu-dark));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;border:2px solid var(--nu-border);overflow:hidden;cursor:pointer;flex-shrink:0}
+.av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.ph{font-size:10px;color:var(--text-hint);text-align:center;margin-top:2px}
+#pi{display:none}
+
+/* layout */
+.lay{display:flex;flex:1;overflow:hidden;height:calc(100vh - var(--th))}
+.sb{width:var(--sw);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden}
+.sb-nav{padding:12px 10px 8px;border-bottom:1px solid var(--border)}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:var(--rm);cursor:pointer;font-size:13px;color:var(--text-sub);transition:all .12s;user-select:none}
+.ni:hover{background:var(--nu-hover);color:var(--nu-dark)}
+.ni.active{background:var(--nu-light);color:var(--nu-dark);font-weight:500;border:1px solid var(--nu-border)}
+.ni-icon{font-size:14px;width:18px;text-align:center}
+.ss-scroll{flex:1;overflow-y:auto;padding:8px}
+.gl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-hint);padding:8px 10px 4px}
+.si{padding:9px 11px;border-radius:var(--rm);cursor:pointer;margin-bottom:2px;border:1px solid transparent;transition:all .12s}
+.si:hover{background:var(--nu-hover)}
+.si.active{background:var(--nu-light);border-color:var(--nu-border)}
+.si-d{font-size:12px;font-weight:600;color:var(--nu-dark)}
+.si-p{font-size:11px;color:var(--text-hint);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.si-b{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
+.sib{font-size:10px;font-family:var(--mono);background:var(--white);border:1px solid var(--nu-border);color:var(--nu);padding:1px 6px;border-radius:20px}
+.nb{margin:8px;padding:9px;border-radius:var(--rm);border:1px dashed var(--nu-border);background:transparent;color:var(--text-hint);font-size:12px;font-family:var(--sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .12s}
+.nb:hover{background:var(--nu-hover);color:var(--nu-dark)}
+
+/* main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.srch{padding:10px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:var(--white);flex-shrink:0}
+.si-inp{flex:1;border:1px solid var(--border);border-radius:var(--rm);padding:7px 12px;font-size:13px;font-family:var(--sans);background:var(--bg);color:var(--text);outline:none;transition:border-color .15s}
+.si-inp:focus{border-color:var(--nu);background:var(--white)}
+.tf{display:flex;gap:6px}
+.tb2{padding:5px 11px;border-radius:20px;border:1px solid var(--border);background:transparent;font-size:11px;cursor:pointer;color:var(--text-sub);transition:all .12s}
+.tb2:hover{background:var(--nu-hover);color:var(--nu-dark)}
+.tb2.active{background:var(--nu);color:#fff;border-color:var(--nu)}
+
+/* session header */
+.sh{padding:14px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;background:var(--white);gap:12px}
+.sh-t{font-size:20px;font-weight:700;color:var(--nu-deep);letter-spacing:-.5px}
+.sh-m{font-size:12px;color:var(--text-hint);margin-top:3px;font-family:var(--mono)}
+.sh-lks{display:flex;gap:8px;margin-top:7px;flex-wrap:wrap}
+.lk{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);color:var(--nu);background:var(--nu-light);border:1px solid var(--nu-border);padding:3px 10px;border-radius:20px;text-decoration:none;transition:background .12s;white-space:nowrap}
+.lk:hover{background:var(--nu-hover)}
+.lk.meet{background:#e8f5e9;border-color:#a5d6a7;color:#2e7d32}
+.lk.meet:hover{background:#c8e6c9}
+.ha{display:flex;gap:8px;flex-shrink:0;align-items:flex-start;margin-top:4px}
+.btn{padding:7px 14px;border-radius:var(--rm);border:1px solid var(--border);background:var(--white);color:var(--text-sub);font-size:12px;font-family:var(--sans);cursor:pointer;transition:all .12s}
+.btn:hover{background:var(--nu-hover);color:var(--nu-dark);border-color:var(--nu-border)}
+.btn-p{background:var(--nu);color:#fff;border-color:var(--nu)}
+.btn-p:hover{background:var(--nu-dark)}
+.btn-pdf{background:#1a0a2e;color:#fff;border-color:#1a0a2e;display:flex;align-items:center;gap:5px}
+.btn-pdf:hover{background:var(--nu-deep);color:#fff}
+
+/* content */
+.ct{flex:1;overflow-y:auto;padding:16px 24px}
+
+/* cards */
+.sc{border:1px solid var(--border);border-radius:var(--rl);margin-bottom:10px;overflow:hidden;background:var(--white)}
+.sc:focus-within{box-shadow:0 0 0 2px var(--nu-border)}
+.sc-h{padding:10px 16px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.sc-h:hover{background:var(--nu-light)}
+.sc-title{font-size:11px;font-weight:600;color:var(--nu-dark);flex:1;letter-spacing:.05em;text-transform:uppercase}
+.sc-tog{font-size:11px;color:var(--text-hint)}
+.sc-b{padding:14px 16px}
+.sc-b.hid{display:none}
+
+/* summary */
+.sum-area{background:linear-gradient(135deg,var(--nu-light),#f0e6ff);border:1px solid var(--nu-border);border-radius:var(--rl);padding:16px;margin-bottom:10px}
+.sum-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8b5cf6;margin-bottom:8px}
+textarea.sum-f{width:100%;border:1px solid var(--nu-border);border-radius:var(--rm);padding:10px 12px;font-size:13px;font-family:var(--sans);line-height:1.65;color:var(--text);background:rgba(255,255,255,.7);resize:none;min-height:70px;outline:none;transition:border-color .15s}
+textarea.sum-f:focus{border-color:var(--nu);background:var(--white)}
+
+/* fields */
+textarea.f{width:100%;border:1px solid var(--border);border-radius:var(--rm);padding:10px 12px;font-size:13px;font-family:var(--sans);line-height:1.65;color:var(--text);background:var(--bg);resize:none;min-height:70px;outline:none;transition:border-color .15s}
+textarea.f:focus{border-color:var(--nu);background:var(--white)}
+input.f-in{width:100%;border:1px solid var(--border);border-radius:var(--rm);padding:8px 12px;font-size:13px;font-family:var(--sans);color:var(--text);background:var(--bg);outline:none;transition:border-color .15s}
+input.f-in:focus{border-color:var(--nu);background:var(--white)}
+
+/* links hub */
+.links-hub{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.hub-lk{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--rm);border:1px solid var(--border);background:var(--bg);text-decoration:none;transition:all .12s}
+.hub-lk:hover{border-color:var(--nu-border);background:var(--nu-light)}
+.hub-icon{font-size:18px;flex-shrink:0}
+.hub-info{}
+.hub-name{font-size:12px;font-weight:600;color:var(--nu-dark)}
+.hub-desc{font-size:11px;color:var(--text-hint);margin-top:1px}
+
+/* metrics */
+.metrics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:10px}
+.mc{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:12px 14px;transition:border-color .15s;position:relative}
+.mc:focus-within{border-color:var(--nu)}
+.mc-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-hint);margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.mc-meta{font-size:10px;color:var(--text-hint);font-family:var(--mono)}
+.mc-row{display:flex;align-items:baseline;gap:6px;margin-bottom:6px}
+.mc-val{width:100%;border:none;background:transparent;font-size:26px;font-weight:700;font-family:var(--mono);color:var(--nu-dark);outline:none}
+.mc-unit{font-size:12px;color:var(--text-hint);flex-shrink:0}
+.mc-target{font-size:11px;font-family:var(--mono);margin-bottom:6px;padding:3px 8px;border-radius:20px;display:inline-block}
+.mc-target.ok{background:var(--green-light);color:var(--green);border:1px solid var(--green-border)}
+.mc-target.warn{background:var(--amber-light);color:var(--amber);border:1px solid var(--amber-border)}
+.mc-target.off{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+.pb-wrap{margin-top:4px}
+.pb-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--text-hint);margin-bottom:3px}
+.pb-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.pb-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.metrics-link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+
+/* topics */
+.topic-list{display:flex;flex-direction:column;gap:6px}
+.topic-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--rm);border:1px solid var(--border);background:var(--bg)}
+.topic-row:hover{border-color:var(--nu-border)}
+.topic-in{flex:1;border:none;background:transparent;font-size:13px;font-family:var(--sans);color:var(--text);outline:none}
+.topic-sel{border:1px solid var(--nu-border);border-radius:20px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:var(--nu-dark);background:var(--nu-light);cursor:pointer;outline:none;flex-shrink:0;-webkit-appearance:none;text-align:center}
+.topic-sel.ok{background:var(--nu);color:#fff;border-color:var(--nu)}
+.xb{font-size:11px;color:var(--border);cursor:pointer;padding:0 3px;transition:color .12s;flex-shrink:0}
+.xb:hover{color:var(--nu)}
+.add-row{display:flex;gap:6px;margin-top:8px}
+.add-in{flex:1;border:1px solid var(--border);border-radius:var(--rm);padding:7px 11px;font-size:13px;font-family:var(--sans);background:var(--bg);color:var(--text);outline:none;transition:border-color .15s}
+.add-in:focus{border-color:var(--nu)}
+select.osel{border:1px solid var(--border);border-radius:var(--rm);padding:7px 9px;font-size:12px;font-family:var(--sans);background:var(--bg);color:var(--nu-dark);outline:none;cursor:pointer}
+
+/* pillar activities */
+.pillar-list{display:flex;flex-direction:column;gap:6px}
+.pillar-row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--rm);border:1px solid var(--border);background:var(--bg)}
+.pillar-in{flex:1;border:none;background:transparent;font-size:13px;font-family:var(--sans);color:var(--text);outline:none}
+.pillar-sel{border:1px solid var(--nu-border);border-radius:20px;padding:3px 10px;font-size:11px;font-family:var(--mono);color:var(--nu-dark);background:var(--nu-light);cursor:pointer;outline:none;flex-shrink:0;-webkit-appearance:none;text-align:center}
+.pillar-sel.ok{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* transcript */
+.tr-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.tr-in{flex:1;border:1px solid var(--border);border-radius:var(--rm);padding:8px 12px;font-size:12px;font-family:var(--mono);color:var(--text);background:var(--bg);outline:none;transition:border-color .15s}
+.tr-in:focus{border-color:var(--nu);background:var(--white)}
+.open-doc{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);color:var(--nu);background:var(--nu-light);border:1px solid var(--nu-border);padding:6px 12px;border-radius:var(--rm);text-decoration:none;white-space:nowrap;transition:background .12s}
+.open-doc:hover{background:var(--nu-hover)}
+.tr-linked{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--nu);border-radius:var(--rm);padding:10px 14px;font-size:12px;font-family:var(--mono);color:var(--nu);display:none}
+
+/* to-do */
+.todo-list{display:flex;flex-direction:column;gap:6px}
+.todo-row{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border-radius:var(--rm);border:1px solid var(--border);background:var(--bg);transition:all .12s}
+.todo-row:hover{border-color:var(--nu-border)}
+.todo-cb{width:17px;height:17px;border-radius:5px;border:1.5px solid var(--nu-border);flex-shrink:0;cursor:pointer;margin-top:1px;display:flex;align-items:center;justify-content:center;background:var(--white);font-size:10px;transition:all .15s}
+.todo-cb.done{background:var(--green);border-color:var(--green);color:#fff}
+.todo-txt{font-size:13px;flex:1;line-height:1.5}
+.todo-txt.done{text-decoration:line-through;color:var(--text-hint)}
+.todo-own{font-size:10px;font-family:var(--mono);padding:2px 8px;border-radius:20px;border:1px solid var(--nu-border);background:var(--nu-light);color:var(--nu-dark);flex-shrink:0;white-space:nowrap}
+
+/* combinados */
+.comb-list{display:flex;flex-direction:column;gap:6px}
+.comb-row{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:var(--rm);border:1px solid var(--border);background:var(--bg)}
+.comb-in{flex:1;border:none;background:transparent;font-size:13px;font-family:var(--sans);color:var(--text);outline:none;line-height:1.5}
+
+/* levelling */
+.level-inp{border:1px solid var(--nu-border);border-radius:var(--rm);padding:6px 10px;font-size:13px;font-family:var(--mono);background:var(--bg);color:var(--nu-dark);outline:none;width:100%}
+.level-inp:focus{border-color:var(--nu)}
+.exp-item{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:var(--rm);border:1px solid var(--border);background:var(--bg);margin-bottom:6px}
+.exp-dot{width:6px;height:6px;border-radius:50%;background:var(--nu);flex-shrink:0;margin-top:5px}
+.exp-ta{flex:1;border:none;background:transparent;font-size:13px;font-family:var(--sans);color:var(--text);outline:none;line-height:1.5;resize:none;min-height:20px}
+.what-card{background:var(--nu-light);border:1px solid var(--nu-border);border-radius:var(--rm);padding:12px 14px;margin-bottom:8px}
+.what-title{font-size:12px;font-weight:600;color:var(--nu-dark);margin-bottom:4px}
+.what-desc{font-size:12px;color:var(--text-sub);line-height:1.6}
+.ic-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-family:var(--mono);font-weight:500;background:var(--nu-light);color:var(--nu-dark);border:1px solid var(--nu-border);padding:5px 12px;border-radius:var(--rm);margin-bottom:10px}
+.arrow-badge{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-family:var(--mono);color:var(--nu-dark);margin-bottom:12px}
+
+/* views */
+.view{display:none;flex-direction:column;height:100%;overflow:hidden}
+.view.active{display:flex}
+
+/* dashboard */
+.dc{flex:1;overflow-y:auto;padding:20px 24px}
+.dash-top{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.dm{background:var(--white);border:1px solid var(--border);border-radius:var(--rl);padding:14px}
+.dm-lbl{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-hint);margin-bottom:4px}
+.dm-val{font-size:28px;font-weight:700;font-family:var(--mono);color:var(--nu-dark)}
+.dm-sub{font-size:11px;color:var(--text-hint);margin-top:2px}
+.cc{background:var(--white);border:1px solid var(--border);border-radius:var(--rl);padding:16px;margin-bottom:10px}
+.cc-title{font-size:11px;font-weight:600;color:var(--nu-dark);margin-bottom:12px;text-transform:uppercase;letter-spacing:.05em}
+/* progress bar generic */
+.pb2-wrap{margin-bottom:10px}
+.pb2-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.pb2-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.pb2-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--nu),var(--nu-mid));transition:width .5s ease}
+/* todo evolution */
+.ev-todo-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+.ev-todo-row:last-child{border-bottom:none}
+.ev-cb{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--nu-border);display:inline-flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.ev-cb.done{background:var(--green);border-color:var(--green);color:#fff}
+.ev-own{font-size:10px;font-family:var(--mono);padding:1px 7px;border-radius:20px;border:1px solid var(--nu-border);background:var(--nu-light);color:var(--nu-dark);flex-shrink:0}
+.sess-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.sess-row:last-child{border-bottom:none}
+
+/* calendar */
+.cal-content{flex:1;overflow-y:auto;padding:20px 24px}
+.cal-ev{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--rl);border:1px solid var(--nu-border);background:var(--nu-light);margin-bottom:8px}
+.cal-ev-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.cal-ev-info{flex:1}
+.cal-ev-title{font-size:13px;font-weight:600;color:var(--nu-dark)}
+.cal-ev-time{font-size:11px;font-family:var(--mono);color:var(--text-hint);margin-top:2px}
+.linked-pill{font-size:10px;font-family:var(--mono);color:var(--nu);background:var(--white);border:1px solid var(--nu-border);padding:2px 8px;border-radius:20px;flex-shrink:0}
+.cal-btn{font-size:11px;font-family:var(--mono);color:var(--nu);border:1px solid var(--nu-border);background:var(--white);border-radius:20px;padding:3px 10px;cursor:pointer;text-decoration:none;flex-shrink:0}
+.cal-btn:hover{background:var(--nu-hover)}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--nu);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* PDF modal */
+.mbk{display:none;position:fixed;inset:0;background:rgba(26,10,46,.6);z-index:200;align-items:center;justify-content:center}
+.mbk.open{display:flex}
+.mo{background:var(--white);border-radius:var(--rl);width:90%;max-width:700px;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(130,10,209,.2)}
+.mo-h{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:10}
+.mo-t{font-size:15px;font-weight:600;color:var(--nu-deep)}
+.mo-x{font-size:20px;color:var(--text-hint);cursor:pointer;background:none;border:none;line-height:1}
+.mo-x:hover{color:var(--nu)}
+.mo-b{padding:22px;font-family:'Georgia',serif;color:#1a0a2e;line-height:1.7}
+.mo-act{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:var(--white)}
+
+/* report styles (inside modal) */
+.r-cover{text-align:center;padding:20px 0 28px;border-bottom:2px solid var(--nu-deep);margin-bottom:24px}
+.r-cover h1{font-size:22px;font-weight:700;color:var(--nu-deep);letter-spacing:-.5px}
+.r-cover p{font-size:12px;color:var(--text-hint);font-family:var(--mono);margin-top:4px}
+.r-cover .r-meta{display:flex;justify-content:center;gap:20px;margin-top:12px;font-size:12px;color:var(--text-sub)}
+.r-sec{margin-bottom:20px}
+.r-sec-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--nu-dark);border-bottom:1px solid var(--nu-border);padding-bottom:5px;margin-bottom:10px}
+.r-text{font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:var(--sans)}
+.r-metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+.r-metric{text-align:center;border:1px solid var(--border);border-radius:var(--rm);padding:10px}
+.r-metric-val{font-size:20px;font-weight:700;font-family:var(--mono);color:var(--nu-dark)}
+.r-metric-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-hint);margin-top:2px}
+.r-metric-tgt{font-size:10px;color:var(--text-hint);margin-top:2px;font-family:var(--mono)}
+.r-row{display:flex;align-items:flex-start;gap:8px;padding:5px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.r-row:last-child{border-bottom:none}
+.r-tag{font-size:10px;font-family:var(--mono);padding:1px 7px;border-radius:20px;border:1px solid var(--nu-border);background:var(--nu-light);color:var(--nu-dark);flex-shrink:0}
+.r-tag.ok{background:var(--green);color:#fff;border-color:var(--green)}
+.r-tag.done-tag{background:var(--nu);color:#fff;border-color:var(--nu)}
+.r-footer{text-align:center;margin-top:28px;padding-top:14px;border-top:1px solid var(--border);font-size:10px;color:var(--text-hint);font-family:var(--mono)}
+
+/* toast */
+.toast{position:fixed;bottom:20px;right:24px;background:var(--nu-deep);color:#fff;padding:9px 16px;border-radius:var(--rm);font-size:12px;font-family:var(--mono);opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateY(0)}
+
+@media print{
+  .tb,.sb,.srch,.sh,.mo-act,.mo-h{display:none!important}
+  .mbk{position:static!important;background:none!important;display:block!important}
+  .mo{box-shadow:none!important;max-height:none!important;width:100%!important}
+  body{background:#fff!important}
+}
+</style>
+</head>
+<body>
+
+<!-- topbar -->
+<div class="tb">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="nu-m">Nu</div>
+    <span class="tb-title">1:1 Raissa ↔ Katia</span>
+  </div>
+  <span class="tb-sep"></span>
+  <span class="tb-badge">raissa.martins · katia.amaral · Nubank</span>
+  <div style="display:flex;flex-direction:column;align-items:center;margin-left:12px">
+    <div class="av" onclick="document.getElementById('pi').click()" title="Adicionar foto">
+      <img id="av-img" src="" alt="" style="display:none"/><span id="av-init">RM</span>
+    </div>
+    <div class="ph">sua foto</div>
+  </div>
+  <input type="file" id="pi" accept="image/*" onchange="loadPhoto(this)"/>
+</div>
+
+<div class="lay">
+  <!-- sidebar -->
+  <div class="sb">
+    <div class="sb-nav">
+      <div class="ni active" onclick="showView('sessions',this)"><span class="ni-icon">📋</span> Sessões</div>
+      <div class="ni" onclick="showView('dashboard',this)"><span class="ni-icon">📊</span> Evolução</div>
+      <div class="ni" onclick="showView('calendar',this)"><span class="ni-icon">📅</span> Calendário</div>
+    </div>
+    <div class="ss-scroll" id="ss-scroll">
+      <div class="gl">Abril 2026</div>
+      <div class="si active" onclick="loadSession(0,this)">
+        <div class="si-d">9 de abril</div>
+        <div class="si-p">Primeira 1:1 com Katia</div>
+        <div class="si-b"><span class="sib">📅 13h15</span><span class="sib">🎥 Meet</span></div>
+      </div>
+    </div>
+    <button class="nb" onclick="newSession()">+ Nova sessão</button>
+  </div>
+
+  <div class="main">
+
+    <!-- ═══ SESSIONS ═══ -->
+    <div class="view active" id="view-sessions">
+      <div class="srch">
+        <input class="si-inp" placeholder="Buscar em todas as sessões…" oninput="filterSessions(this.value)"/>
+        <div class="tf">
+          <button class="tb2 active" onclick="setTag(this)">Todos</button>
+          <button class="tb2" onclick="setTag(this)">Feedback</button>
+          <button class="tb2" onclick="setTag(this)">Bloqueio</button>
+        </div>
+      </div>
+      <div class="sh">
+        <div>
+          <div class="sh-t" id="sh-title">9 de abril de 2026</div>
+          <div class="sh-m" id="sh-meta">1:1 - Raissa &lt;&gt; Katia · 13h15–14h00</div>
+          <div class="sh-lks">
+            <a class="lk" id="sh-cal" href="https://www.google.com/calendar/event?eid=N2ZyYjE2cHZnaXRmYXRucmt2dWVwZGdsbWEgcmFpc3NhLm1hcnRpbnNAbnViYW5rLmNvbS5icg" target="_blank">📅 Calendar ↗</a>
+            <a class="lk meet" id="sh-meet" href="https://meet.google.com/yoo-hpez-ieq" target="_blank">🎥 Entrar no Meet ↗</a>
+          </div>
+        </div>
+        <div class="ha">
+          <button class="btn btn-pdf" onclick="openPDF()">⬇ Exportar relatório</button>
+          <button class="btn btn-p" onclick="saveSession()">Salvar</button>
+        </div>
+      </div>
+      <div class="ct" id="ct">
+
+        <!-- RESUMO -->
+        <div class="sum-area">
+          <div class="sum-lbl">✦ Resumo da sessão</div>
+          <textarea class="sum-f" id="summary-f" rows="3" placeholder="Resumo gerado após a reunião…"></textarea>
+        </div>
+
+        <!-- LINKS HUB -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('links')"><span style="font-size:14px">🔗</span><span class="sc-title">Links & Recursos</span><span class="sc-tog" id="links-t">▾</span></div>
+          <div class="sc-b" id="links-b">
+            <div class="links-hub">
+              <a class="hub-lk" href="https://meet.google.com/yoo-hpez-ieq" target="_blank">
+                <span class="hub-icon">🎥</span><div class="hub-info"><div class="hub-name">Google Meet</div><div class="hub-desc">Sala da reunião 1:1</div></div>
+              </a>
+              <a class="hub-lk" href="https://docs.google.com/document/d/1_1FCWJ9B3N21mmsVGJoiZjAFIfFzgJ3QTYK57s0pNk4/edit?tab=t.z2oou585hy84" target="_blank">
+                <span class="hub-icon">📄</span><div class="hub-info"><div class="hub-name">Expectativas 2026</div><div class="hub-desc">WHATs & HOWs · Google Doc</div></div>
+              </a>
+              <a class="hub-lk" href="https://app.qulture.rocks/#/company/29/one-page/contracts/1396197" target="_blank">
+                <span class="hub-icon">🎯</span><div class="hub-info"><div class="hub-name">Qulture.Rocks</div><div class="hub-desc">Dev Plan & OKRs</div></div>
+              </a>
+              <a class="hub-lk" href="https://us-east-1.quicksight.aws.amazon.com/sn/account/nu-qs-prod/dashboards/29411af2-24c3-4dc5-a0d6-fa607caac170/sheets/29411af2-24c3-4dc5-a0d6-fa607caac170_a0ff1bf5-6946-4ca4-b606-b1e2308b3ea8?state=QUFBQURtdGxlUzB4TlRZNE9UVTFNekEzX1QtN1ByYk5kNm5ZRGM0Q3NCSzBNMTJrMnM4RjA1a21TQm9mVjJPd3NwdG9OY1hMb1JmWUl0UVA2UFVVVEpMVVNMSFlIN3ZNS1BVTVBqNmVuczlTcWg2SDZPS3lzOFA4SzFNcjhxWU04RVBocjN3MURGTnA1SU5OQWoycVhxOGthX194YWJ3QUdha25reXVMVTlQb3BybmlDNXZ0QWxuMzBBbDFGTFFwaWZnWmFpNmUyNlZaSFp2d2I3REJNeldFZnZOdGQtczVLaHRxeUZ1Zm8tenVOUFFGQnJwYUlLdl9VX2lZ" target="_blank">
+                <span class="hub-icon">📊</span><div class="hub-info"><div class="hub-name">QuickSight</div><div class="hub-desc">Dashboard de métricas AWS</div></div>
+              </a>
+              <a class="hub-lk" href="https://datastudio.google.com/u/0/reporting/5580bbae-4e5f-47c9-beb7-62995cc0c08e/page/GWZUF" target="_blank">
+                <span class="hub-icon">📈</span><div class="hub-info"><div class="hub-name">Looker Studio</div><div class="hub-desc">Relatório de performance</div></div>
+              </a>
+              <a class="hub-lk" id="hub-transcript" href="#" target="_blank" style="opacity:.4;pointer-events:none">
+                <span class="hub-icon">🎙️</span><div class="hub-info"><div class="hub-name">Transcrição Gemini</div><div class="hub-desc" id="hub-transcript-desc">Disponível após a reunião</div></div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRANSCRIÇÃO GEMINI -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('transcript')"><span style="font-size:14px">🎙️</span><span class="sc-title">Transcrição Gemini</span><span class="sc-tog" id="transcript-t">▾</span></div>
+          <div class="sc-b" id="transcript-b">
+            <p style="font-size:11px;color:var(--text-hint);font-family:var(--mono);margin-bottom:8px">Link do Google Doc com a transcrição desta sessão (adicionado automaticamente após a reunião)</p>
+            <div class="tr-row">
+              <input class="tr-in" id="transcript-link" placeholder="https://docs.google.com/document/d/..." oninput="onTranscriptLink(this.value)"/>
+              <a class="open-doc" id="open-doc" href="#" target="_blank" style="display:none">Abrir Doc ↗</a>
+            </div>
+            <div class="tr-linked" id="tr-linked">📄 Transcrição vinculada — clique em "Abrir Doc" para visualizar</div>
+          </div>
+        </div>
+
+        <!-- PONTOS A DISCUTIR -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('points')"><span style="font-size:14px">🎯</span><span class="sc-title">Pontos a discutir</span><span class="sc-tog" id="points-t">▾</span></div>
+          <div class="sc-b" id="points-b">
+            <div class="topic-list" id="topic-list"></div>
+            <div class="add-row">
+              <input class="add-in" id="new-topic" placeholder="Adicionar ponto a discutir…" onkeydown="if(event.key==='Enter')addTopic()"/>
+              <button class="btn btn-p" onclick="addTopic()">+ Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ATIVIDADE PILAR -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('pillar')"><span style="font-size:14px">🏛️</span><span class="sc-title">Atividade Pilar</span><span class="sc-tog" id="pillar-t">▾</span></div>
+          <div class="sc-b" id="pillar-b">
+            <p style="font-size:11px;color:var(--text-hint);margin-bottom:10px">Atividades estruturantes da função — registre e acompanhe o status ao longo das sessões.</p>
+            <div class="pillar-list" id="pillar-list"></div>
+            <div class="add-row">
+              <input class="add-in" id="new-pillar" placeholder="Descrever atividade pilar…" onkeydown="if(event.key==='Enter')addPillar()"/>
+              <button class="btn btn-p" onclick="addPillar()">+ Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FEEDBACKS -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('feedback')"><span style="font-size:14px">💬</span><span class="sc-title">Feedbacks</span><span class="sc-tog" id="feedback-t">▾</span></div>
+          <div class="sc-b" id="feedback-b">
+            <textarea class="f" id="feedback-f" rows="3" placeholder="Feedbacks recebidos ou dados…"></textarea>
+          </div>
+        </div>
+
+        <!-- BLOQUEIOS -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('blockers')"><span style="font-size:14px">🚧</span><span class="sc-title">Bloqueios</span><span class="sc-tog" id="blockers-t">▾</span></div>
+          <div class="sc-b" id="blockers-b">
+            <textarea class="f" id="blockers-f" rows="3" placeholder="Impedimentos e bloqueios…"></textarea>
+          </div>
+        </div>
+
+        <!-- COMBINADOS -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('comb')"><span style="font-size:14px">🤝</span><span class="sc-title">Combinados</span><span class="sc-tog" id="comb-t">▾</span></div>
+          <div class="sc-b" id="comb-b">
+            <div class="comb-list" id="comb-list"></div>
+            <div class="add-row">
+              <input class="add-in" id="new-comb" placeholder="Registrar combinado…" onkeydown="if(event.key==='Enter')addComb()"/>
+              <button class="btn btn-p" onclick="addComb()">+ Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- TO DO -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('todo')"><span style="font-size:14px">✅</span><span class="sc-title">To Do</span><span class="sc-tog" id="todo-t">▾</span></div>
+          <div class="sc-b" id="todo-b">
+            <div class="todo-list" id="todo-list"></div>
+            <div class="add-row">
+              <input class="add-in" id="new-todo" placeholder="Descrever tarefa…" onkeydown="if(event.key==='Enter')addTodo()"/>
+              <select class="osel" id="todo-owner"><option>Raissa</option><option>Katia</option></select>
+              <button class="btn btn-p" onclick="addTodo()">+ Adicionar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MÉTRICAS -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('metrics')"><span style="font-size:14px">📈</span><span class="sc-title">Métricas</span><span class="sc-tog" id="metrics-t">▾</span></div>
+          <div class="sc-b" id="metrics-b">
+            <div class="metrics-grid">
+              <div class="mc">
+                <div class="mc-lbl">Qualidade (QA)<span class="mc-meta">Meta: 100%</span></div>
+                <div class="mc-row"><input class="mc-val" id="m-qualidade" type="text" placeholder="—" oninput="updateBar('qualidade',this.value,100,100)"/><span class="mc-unit">%</span></div>
+                <div id="m-qualidade-tag"></div>
+                <div class="pb-wrap"><div class="pb-lbl"><span>Progresso</span><span id="m-qualidade-pct">—</span></div><div class="pb-track"><div class="pb-fill" id="bar-qualidade" style="width:0%"></div></div></div>
+              </div>
+              <div class="mc">
+                <div class="mc-lbl">Ocupação<span class="mc-meta">Meta: 87%</span></div>
+                <div class="mc-row"><input class="mc-val" id="m-ocupacao" type="text" placeholder="—" oninput="updateBar('ocupacao',this.value,100,87)"/><span class="mc-unit">%</span></div>
+                <div id="m-ocupacao-tag"></div>
+                <div class="pb-wrap"><div class="pb-lbl"><span>Progresso</span><span id="m-ocupacao-pct">—</span></div><div class="pb-track"><div class="pb-fill" id="bar-ocupacao" style="width:0%"></div></div></div>
+              </div>
+              <div class="mc">
+                <div class="mc-lbl">Jobs / hora<span class="mc-meta">Meta: 1,74</span></div>
+                <div class="mc-row"><input class="mc-val" id="m-jobs" type="text" placeholder="—" oninput="updateBar('jobs',this.value,3,1.74)"/><span class="mc-unit">jobs</span></div>
+                <div id="m-jobs-tag"></div>
+                <div class="pb-wrap"><div class="pb-lbl"><span>Progresso</span><span id="m-jobs-pct">—</span></div><div class="pb-track"><div class="pb-fill" id="bar-jobs" style="width:0%"></div></div></div>
+              </div>
+              <div class="mc">
+                <div class="mc-lbl">Skip Rate<span class="mc-meta">Meta: ≤ 0,03%</span></div>
+                <div class="mc-row"><input class="mc-val" id="m-skip" type="text" placeholder="—" oninput="updateBar('skip',this.value,1,0.03)"/><span class="mc-unit">%</span></div>
+                <div id="m-skip-tag"></div>
+                <div class="pb-wrap"><div class="pb-lbl"><span>Atual</span><span id="m-skip-pct">—</span></div><div class="pb-track"><div class="pb-fill" id="bar-skip" style="width:0%;background:linear-gradient(90deg,#f59e0b,#ef4444)"></div></div></div>
+              </div>
+            </div>
+            <textarea class="f" id="metrics-notes" rows="2" placeholder="Observações sobre as métricas…" style="margin-top:6px"></textarea>
+            <div class="metrics-link-row">
+              <a class="lk" href="https://us-east-1.quicksight.aws.amazon.com/sn/account/nu-qs-prod/dashboards/29411af2-24c3-4dc5-a0d6-fa607caac170/sheets/29411af2-24c3-4dc5-a0d6-fa607caac170_a0ff1bf5-6946-4ca4-b606-b1e2308b3ea8?state=QUFBQURtdGxlUzB4TlRZNE9UVTFNekEzX1QtN1ByYk5kNm5ZRGM0Q3NCSzBNMTJrMnM4RjA1a21TQm9mVjJPd3NwdG9OY1hMb1JmWUl0UVA2UFVVVEpMVVNMSFlIN3ZNS1BVTVBqNmVuczlTcWg2SDZPS3lzOFA4SzFNcjhxWU04RVBocjN3MURGTnA1SU5OQWoycVhxOGthX194YWJ3QUdha25reXVMVTlQb3BybmlDNXZ0QWxuMzBBbDFGTFFwaWZnWmFpNmUyNlZaSFp2d2I3REJNeldFZnZOdGQtczVLaHRxeUZ1Zm8tenVOUFFGQnJwYUlLdl9VX2lZ" target="_blank">📊 QuickSight ↗</a>
+              <a class="lk" href="https://datastudio.google.com/u/0/reporting/5580bbae-4e5f-47c9-beb7-62995cc0c08e/page/GWZUF" target="_blank">📈 Looker Studio ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEVELLING & EXPECTATIONS -->
+        <div class="sc">
+          <div class="sc-h" onclick="tog('levelling')"><span style="font-size:14px">🏆</span><span class="sc-title">Levelling & Expectations</span><span class="sc-tog" id="levelling-t">▾</span></div>
+          <div class="sc-b" id="levelling-b">
+            <div class="arrow-badge">
+              <span style="background:var(--nu-light);border:1px solid var(--nu-border);padding:4px 12px;border-radius:var(--rm);font-weight:600">IC3 · Analista Pleno</span>
+              <span style="color:var(--nu)">→</span>
+              <span style="background:linear-gradient(135deg,var(--nu-light),#e8d5ff);border:1px solid var(--nu);padding:4px 12px;border-radius:var(--rm);font-weight:600;color:var(--nu-dark)">IC4 · Analista Sênior</span>
+            </div>
+            <div class="pb2-wrap" style="margin-bottom:16px">
+              <div class="pb2-head"><span style="font-weight:500">Progresso para IC4</span><span id="level-pct-lbl" style="font-family:var(--mono);color:var(--nu)">0%</span></div>
+              <div class="pb2-track"><div class="pb2-fill" id="level-bar" style="width:0%"></div></div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px">
+                <span style="font-size:10px;color:var(--text-hint)">IC3</span>
+                <input type="range" min="0" max="100" value="0" style="flex:1;margin:0 10px" oninput="setLevelProg(this.value)"/>
+                <span style="font-size:10px;color:var(--text-hint)">IC4</span>
+              </div>
+            </div>
+
+            <!-- WHATs -->
+            <div style="margin-bottom:14px">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--nu-dark);margin-bottom:8px">WHATs — Entregas esperadas</div>
+              <div class="what-card"><div class="what-title">#1 · Performance Operacional – Lawsuits Defense</div><div class="what-desc">Qualidade ≥ 100% · Jobs/h ≥ 1,74 · Ocupação 87% · Skip ≤ 0,03%. Autonomia na identificação e correção de desvios via plano 5W2H.</div></div>
+              <div class="what-card"><div class="what-title">#2 · Alavancagem com IA</div><div class="what-desc">Uso de IA em 4+ dias/semana nas frentes de QA, comunicação e produtividade. Apresentar impacto nos 1:1s. Contribuir com 2 casos de uso validados no ano.</div></div>
+              <div class="what-card"><div class="what-title">#3 · Governança e Adesão aos Processos</div><div class="what-desc">Zero ocorrências de falha operacional. Entregas dentro dos padrões definidos, sem gerar retrabalho para colegas ou stakeholders.</div></div>
+            </div>
+
+            <!-- HOWs -->
+            <div style="margin-bottom:14px">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--nu-dark);margin-bottom:8px">HOWs — Comportamentos & Desenvolvimento</div>
+              <div class="what-card" style="background:var(--bg)"><div class="what-title">#1 · Inteligência Analítica e Autonomia</div><div class="what-desc">Correlacionar métricas (qualidade x produtividade, ocupação x skip), identificar desvios e agir com planos estruturados sem necessidade de direcionamento constante.</div></div>
+              <div class="what-card" style="background:var(--bg)"><div class="what-title">#2 · Experimentação e Compartilhamento com IA</div><div class="what-desc">Testar, validar e comunicar ferramentas de IA para a liderança e pares. Transformar experimentação individual em conhecimento coletivo do time.</div></div>
+              <div class="what-card" style="background:var(--bg)"><div class="what-title">#3 · Comunicação e Responsabilidade Operacional</div><div class="what-desc">Garantir cadência das entregas, comunicar desvios em tempo hábil e assegurar handoffs claros e completos para o time.</div></div>
+            </div>
+
+            <!-- Avaliação qualitativa -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--nu-dark);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">O que está indo bem ✓</div>
+                <div id="exp-going-well"></div>
+                <button class="btn" style="font-size:11px;margin-top:6px;width:100%" onclick="addExp('going-well')">+ Adicionar</button>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:600;color:var(--nu-dark);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">A desenvolver →</div>
+                <div id="exp-to-develop"></div>
+                <button class="btn" style="font-size:11px;margin-top:6px;width:100%" onclick="addExp('to-develop')">+ Adicionar</button>
+              </div>
+            </div>
+            <div style="margin-top:12px">
+              <div style="font-size:11px;font-weight:600;color:var(--nu-dark);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Notas do ciclo</div>
+              <textarea class="f" id="level-notes" rows="3" placeholder="Observações livres sobre a progressão IC3 → IC4…"></textarea>
+            </div>
+            <div style="margin-top:10px">
+              <a class="lk" href="https://docs.google.com/document/d/1_1FCWJ9B3N21mmsVGJoiZjAFIfFzgJ3QTYK57s0pNk4/edit?tab=t.z2oou585hy84" target="_blank" style="margin-right:8px">📄 Expectativas completas ↗</a>
+              <a class="lk" href="https://app.qulture.rocks/#/company/29/one-page/contracts/1396197" target="_blank">🎯 Qulture.Rocks ↗</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /ct -->
+    </div><!-- /sessions -->
+
+    <!-- ═══ DASHBOARD / EVOLUÇÃO ═══ -->
+    <div class="view" id="view-dashboard">
+      <div class="dc">
+        <div style="margin-bottom:16px">
+          <div style="font-size:18px;font-weight:700;color:var(--nu-deep);letter-spacing:-.3px;margin-bottom:4px">Evolução — Raissa Martins</div>
+          <div style="font-size:12px;font-family:var(--mono);color:var(--text-hint)">IC3 → IC4 · Ciclo 2026 · Gestão: Katia Amaral</div>
+        </div>
+
+        <!-- levelling progress -->
+        <div class="cc" style="margin-bottom:14px">
+          <div class="cc-title">Progressão IC3 → IC4</div>
+          <div class="pb2-wrap">
+            <div class="pb2-head"><span style="font-weight:500">Progresso estimado</span><span id="d-level-pct" style="font-family:var(--mono);color:var(--nu)">0%</span></div>
+            <div class="pb2-track"><div class="pb2-fill" id="d-level-bar" style="width:0%"></div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px">
+            <div style="text-align:center;padding:10px;background:var(--nu-light);border-radius:var(--rm);border:1px solid var(--nu-border)">
+              <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--nu-dark)" id="d-sessions">1</div>
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-hint);margin-top:2px">Sessões</div>
+            </div>
+            <div style="text-align:center;padding:10px;background:var(--green-light);border-radius:var(--rm);border:1px solid var(--green-border)">
+              <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--green)" id="d-done">0</div>
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--green);margin-top:2px">To Dos concluídos</div>
+            </div>
+            <div style="text-align:center;padding:10px;background:var(--amber-light);border-radius:var(--rm);border:1px solid var(--amber-border)">
+              <div style="font-size:22px;font-weight:700;font-family:var(--mono);color:var(--amber)" id="d-pending">0</div>
+              <div style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--amber);margin-top:2px">To Dos pendentes</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- to-do evolution -->
+        <div class="cc" style="margin-bottom:14px">
+          <div class="cc-title">To Do — Todas as sessões</div>
+          <div id="ev-todo-list"><p style="font-size:13px;color:var(--text-hint)">Nenhum To Do cadastrado ainda.</p></div>
+        </div>
+
+        <!-- WHATs progress -->
+        <div class="cc" style="margin-bottom:14px">
+          <div class="cc-title">WHATs — Progresso no ciclo</div>
+          <div class="pb2-wrap"><div class="pb2-head"><span>#1 · Performance Operacional</span><span style="font-family:var(--mono);font-size:12px;color:var(--nu)">Em andamento</span></div><div class="pb2-track"><div class="pb2-fill" style="width:0%" id="what1-bar"></div></div></div>
+          <div class="pb2-wrap"><div class="pb2-head"><span>#2 · Alavancagem com IA</span><span style="font-family:var(--mono);font-size:12px;color:var(--nu)">Em andamento</span></div><div class="pb2-track"><div class="pb2-fill" style="width:0%" id="what2-bar"></div></div></div>
+          <div class="pb2-wrap"><div class="pb2-head"><span>#3 · Governança de Risco</span><span style="font-family:var(--mono);font-size:12px;color:var(--nu)">Em andamento</span></div><div class="pb2-track"><div class="pb2-fill" style="width:0%" id="what3-bar"></div></div></div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <input class="f-in" id="what1-val" type="range" min="0" max="100" value="0" oninput="document.getElementById('what1-bar').style.width=this.value+'%'" style="flex:1"/>
+            <input class="f-in" id="what2-val" type="range" min="0" max="100" value="0" oninput="document.getElementById('what2-bar').style.width=this.value+'%'" style="flex:1"/>
+            <input class="f-in" id="what3-val" type="range" min="0" max="100" value="0" oninput="document.getElementById('what3-bar').style.width=this.value+'%'" style="flex:1"/>
+          </div>
+        </div>
+
+        <!-- sessions history -->
+        <div class="cc">
+          <div class="cc-title">Histórico de sessões</div>
+          <div id="hist-list"><p style="font-size:13px;color:var(--text-hint)">Nenhuma sessão registrada.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CALENDAR ═══ -->
+    <div class="view" id="view-calendar">
+      <div class="cal-content">
+        <div style="font-size:18px;font-weight:700;color:var(--nu-deep);margin-bottom:4px;letter-spacing:-.3px">Google Calendar</div>
+        <div style="font-size:12px;font-family:var(--mono);color:var(--text-hint);margin-bottom:14px">Eventos "1:1 - Raissa &lt;&gt; Katia" na sua agenda</div>
+        <div style="background:var(--nu-light);border:1px solid var(--nu-border);border-radius:var(--rm);padding:9px 14px;font-size:12px;font-family:var(--mono);color:var(--nu);margin-bottom:14px;display:flex;align-items:center;gap:7px">
+          <div class="live-dot"></div>Conectado · raissa.martins@nubank.com.br · katia.amaral@nubank.com.br
+        </div>
+        <div class="cal-ev">
+          <div class="cal-ev-dot" style="background:var(--nu)"></div>
+          <div class="cal-ev-info">
+            <div class="cal-ev-title">1:1 - Raissa &lt;&gt; Katia</div>
+            <div class="cal-ev-time">9 de abril de 2026 · 13h15–14h00 · Google Meet</div>
+          </div>
+          <span class="linked-pill">✓ Vinculado</span>
+          <a class="cal-btn" href="https://meet.google.com/yoo-hpez-ieq" target="_blank">🎥 Meet ↗</a>
+          <a class="cal-btn" href="https://www.google.com/calendar/event?eid=N2ZyYjE2cHZnaXRmYXRucmt2dWVwZGdsbWEgcmFpc3NhLm1hcnRpbnNAbnViYW5rLmNvbS5icg" target="_blank">📅 Cal ↗</a>
+        </div>
+        <div style="margin-top:14px;padding:18px;border:1px dashed var(--nu-border);border-radius:var(--rl);text-align:center;color:var(--text-hint)">
+          <div style="font-size:13px;font-weight:600;color:var(--nu-dark);margin-bottom:6px">Link do sistema</div>
+          <div style="font-size:12px;line-height:1.6;margin-bottom:8px">Compartilhe com a Katia adicionando na descrição do evento.</div>
+          <div style="font-size:11px;font-family:var(--mono);background:var(--bg);border:1px solid var(--border);border-radius:var(--rm);padding:6px 10px;color:var(--text-hint)">https://raissa-martins.github.io/1-1-Raissa-</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /layout -->
+
+<!-- PDF MODAL -->
+<div class="mbk" id="pdf-modal">
+  <div class="mo">
+    <div class="mo-h">
+      <span class="mo-t">📄 Relatório Executivo da Sessão</span>
+      <button class="mo-x" onclick="closePDF()">✕</button>
+    </div>
+    <div class="mo-b" id="mo-body"></div>
+    <div class="mo-act">
+      <button class="btn" onclick="closePDF()">Fechar</button>
+      <button class="btn btn-p" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Salvo ✓</div>
+
+<script>
+// ════════════════════════════════
+// DATA
+// ════════════════════════════════
+const sessions=[{
+  id:0,title:"9 de abril de 2026",meta:"1:1 - Raissa <> Katia · 13h15–14h00",
+  calLink:"https://www.google.com/calendar/event?eid=N2ZyYjE2cHZnaXRmYXRucmt2dWVwZGdsbWEgcmFpc3NhLm1hcnRpbnNAbnViYW5rLmNvbS5icg",
+  meetLink:"https://meet.google.com/yoo-hpez-ieq",
+  summary:"",transcriptLink:"",feedback:"",blockers:"",metricsNotes:"",levelNotes:"",
+  metrics:{qualidade:"",ocupacao:"",jobs:"",skip:""},
+  topics:[],pillars:[],combos:[],todos:[],
+  levelling:{progress:0,goingWell:[],toDevelop:[]}
+}];
+let curr=0;
+
+// ════════════════════════════════
+// LOAD / SAVE
+// ════════════════════════════════
+function loadSession(i,el){
+  curr=i;
+  document.querySelectorAll('.si').forEach(s=>s.classList.remove('active'));
+  if(el)el.classList.add('active');
+  const s=sessions[i];
+  document.getElementById('sh-title').textContent=s.title;
+  document.getElementById('sh-meta').innerHTML=s.meta.replace('<>','&lt;&gt;');
+  const cl=document.getElementById('sh-cal');cl.href=s.calLink||'#';cl.style.display=s.calLink?'inline-flex':'none';
+  const ml=document.getElementById('sh-meet');ml.href=s.meetLink||'#';ml.style.display=s.meetLink?'inline-flex':'none';
+  document.getElementById('summary-f').value=s.summary||'';
+  document.getElementById('feedback-f').value=s.feedback||'';
+  document.getElementById('blockers-f').value=s.blockers||'';
+  document.getElementById('metrics-notes').value=s.metricsNotes||'';
+  document.getElementById('level-notes').value=s.levelNotes||'';
+  document.getElementById('transcript-link').value=s.transcriptLink||'';
+  onTranscriptLink(s.transcriptLink||'');
+  ['qualidade','ocupacao','jobs','skip'].forEach(k=>{
+    const v=s.metrics[k]||'';document.getElementById('m-'+k).value=v;
+    const targets={qualidade:100,ocupacao:87,jobs:3,skip:1};
+    const metas={qualidade:100,ocupacao:87,jobs:1.74,skip:0.03};
+    updateBar(k,v,targets[k],metas[k]);
+  });
+  setLevelProg(s.levelling.progress||0);
+  renderExp('going-well',s.levelling.goingWell||[]);
+  renderExp('to-develop',s.levelling.toDevelop||[]);
+  renderTopics();renderPillars();renderCombos();renderTodos();
+}
+
+function saveSession(){
+  const s=sessions[curr];
+  s.summary=document.getElementById('summary-f').value;
+  s.transcriptLink=document.getElementById('transcript-link').value;
+  s.feedback=document.getElementById('feedback-f').value;
+  s.blockers=document.getElementById('blockers-f').value;
+  s.metricsNotes=document.getElementById('metrics-notes').value;
+  s.levelNotes=document.getElementById('level-notes').value;
+  ['qualidade','ocupacao','jobs','skip'].forEach(k=>s.metrics[k]=document.getElementById('m-'+k).value);
+  s.levelling.progress=parseInt(document.getElementById('level-bar').style.width)||0;
+  showToast('Salvo ✓');updateDash();
+}
+
+// ════════════════════════════════
+// TRANSCRIPT
+// ════════════════════════════════
+function onTranscriptLink(val){
+  sessions[curr].transcriptLink=val;
+  const btn=document.getElementById('open-doc');
+  const lnk=document.getElementById('tr-linked');
+  const hub=document.getElementById('hub-transcript');
+  const hubDesc=document.getElementById('hub-transcript-desc');
+  const ok=val&&val.startsWith('http');
+  btn.href=val;btn.style.display=ok?'inline-flex':'none';
+  lnk.style.display=ok?'block':'none';
+  if(ok){hub.href=val;hub.style.opacity='1';hub.style.pointerEvents='auto';hubDesc.textContent='Ver transcrição desta sessão';}
+  else{hub.style.opacity='.4';hub.style.pointerEvents='none';hubDesc.textContent='Disponível após a reunião';}
+}
+
+// ════════════════════════════════
+// TOPICS
+// ════════════════════════════════
+function renderTopics(){
+  const l=document.getElementById('topic-list');l.innerHTML='';
+  sessions[curr].topics.forEach((t,i)=>{
+    const d=document.createElement('div');d.className='topic-row';
+    d.innerHTML=`<input class="topic-in" value="${esc(t.text)}" placeholder="Tópico…" oninput="sessions[${curr}].topics[${i}].text=this.value"/>
+    <select class="topic-sel${t.status==='conversado'?' ok':''}" onchange="onTopicSel(${i},this)">
+      <option value="pendente"${t.status!=='conversado'?' selected':''}>Pendente</option>
+      <option value="conversado"${t.status==='conversado'?' selected':''}>Conversado</option>
+    </select><span class="xb" onclick="delTopic(${i})">✕</span>`;
+    l.appendChild(d);
+  });
+}
+function onTopicSel(i,sel){sessions[curr].topics[i].status=sel.value;sel.className='topic-sel'+(sel.value==='conversado'?' ok':'');}
+function addTopic(){const inp=document.getElementById('new-topic');const v=inp.value.trim();if(!v)return;sessions[curr].topics.push({text:v,status:'pendente'});inp.value='';renderTopics();}
+function delTopic(i){sessions[curr].topics.splice(i,1);renderTopics();}
+
+// ════════════════════════════════
+// PILLARS
+// ════════════════════════════════
+function renderPillars(){
+  const l=document.getElementById('pillar-list');l.innerHTML='';
+  sessions[curr].pillars.forEach((p,i)=>{
+    const d=document.createElement('div');d.className='pillar-row';
+    d.innerHTML=`<input class="pillar-in" value="${esc(p.text)}" placeholder="Atividade pilar…" oninput="sessions[${curr}].pillars[${i}].text=this.value"/>
+    <select class="pillar-sel${p.status==='concluída'?' ok':''}" onchange="onPillarSel(${i},this)">
+      <option value="em andamento"${p.status!=='concluída'?' selected':''}>Em andamento</option>
+      <option value="concluída"${p.status==='concluída'?' selected':''}>Concluída</option>
+    </select><span class="xb" onclick="delPillar(${i})">✕</span>`;
+    l.appendChild(d);
+  });
+}
+function onPillarSel(i,sel){sessions[curr].pillars[i].status=sel.value;sel.className='pillar-sel'+(sel.value==='concluída'?' ok':'');}
+function addPillar(){const inp=document.getElementById('new-pillar');const v=inp.value.trim();if(!v)return;sessions[curr].pillars.push({text:v,status:'em andamento'});inp.value='';renderPillars();}
+function delPillar(i){sessions[curr].pillars.splice(i,1);renderPillars();}
+
+// ════════════════════════════════
+// COMBOS
+// ════════════════════════════════
+function renderCombos(){
+  const l=document.getElementById('comb-list');l.innerHTML='';
+  sessions[curr].combos.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='comb-row';
+    d.innerHTML=`<input class="comb-in" value="${esc(c)}" placeholder="Combinado…" oninput="sessions[${curr}].combos[${i}]=this.value" style="border:none;background:transparent;font-size:13px;font-family:var(--sans);color:var(--text);outline:none;flex:1"/>
+    <span class="xb" onclick="delComb(${i})">✕</span>`;
+    l.appendChild(d);
+  });
+}
+function addComb(){const inp=document.getElementById('new-comb');const v=inp.value.trim();if(!v)return;sessions[curr].combos.push(v);inp.value='';renderCombos();}
+function delComb(i){sessions[curr].combos.splice(i,1);renderCombos();}
+
+// ════════════════════════════════
+// TO DO
+// ════════════════════════════════
+function renderTodos(){
+  const l=document.getElementById('todo-list');l.innerHTML='';
+  sessions[curr].todos.forEach((t,i)=>{
+    const d=document.createElement('div');d.className='todo-row';
+    d.innerHTML=`<div class="todo-cb${t.done?' done':''}" onclick="toggleTodo(${i})">${t.done?'✓':''}</div>
+    <span class="todo-txt${t.done?' done':''}">${esc(t.text)}</span>
+    <span class="todo-own">${esc(t.owner)}</span>
+    <span class="xb" onclick="delTodo(${i})">✕</span>`;
+    l.appendChild(d);
+  });
+  updateDash();
+}
+function toggleTodo(i){sessions[curr].todos[i].done=!sessions[curr].todos[i].done;renderTodos();}
+function delTodo(i){sessions[curr].todos.splice(i,1);renderTodos();}
+function addTodo(){
+  const inp=document.getElementById('new-todo');const owner=document.getElementById('todo-owner').value;
+  const v=inp.value.trim();if(!v)return;
+  sessions[curr].todos.push({text:v,owner,done:false,sessionTitle:sessions[curr].title});
+  inp.value='';renderTodos();
+}
+
+// ════════════════════════════════
+// METRICS
+// ════════════════════════════════
+function updateBar(key,val,max,meta){
+  const num=parseFloat((val||'').replace(',','.'))||0;
+  const pct=Math.min(Math.round(num/max*100),100);
+  const bar=document.getElementById('bar-'+key);
+  const lbl=document.getElementById('m-'+key+'-pct');
+  const tag=document.getElementById('m-'+key+'-tag');
+  if(bar)bar.style.width=pct+'%';
+  if(lbl)lbl.textContent=val?val+(key==='jobs'?' jobs':'%'):'—';
+  if(tag&&val){
+    const n=parseFloat((val||'').replace(',','.'));
+    let cls='warn',txt='⚠ Atenção';
+    if(key==='skip'){if(n<=meta){cls='ok';txt='✓ Dentro da meta';}else{cls='off';txt='✗ Acima da meta';}}
+    else{if(n>=meta){cls='ok';txt='✓ Meta atingida';}else if(n>=meta*0.8){cls='warn';txt='⚠ Próximo da meta';}else{cls='off';txt='✗ Abaixo da meta';}}
+    tag.innerHTML=`<span class="mc-target ${cls}">${txt}</span>`;
+  } else if(tag) tag.innerHTML='';
+}
+
+// ════════════════════════════════
+// LEVELLING
+// ════════════════════════════════
+function setLevelProg(v){
+  v=parseInt(v)||0;sessions[curr].levelling.progress=v;
+  document.getElementById('level-bar').style.width=v+'%';
+  document.getElementById('level-pct-lbl').textContent=v+'%';
+  const s=document.querySelector('#levelling-b input[type=range]');if(s)s.value=v;
+}
+function renderExp(key,items){
+  const c=document.getElementById('exp-'+key);c.innerHTML='';
+  const dk=key==='going-well'?'goingWell':'toDevelop';
+  items.forEach((text,i)=>{
+    const d=document.createElement('div');d.className='exp-item';
+    d.innerHTML=`<div class="exp-dot"></div>
+    <textarea class="exp-ta" rows="1" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';sessions[${curr}].levelling.${dk}[${i}]=this.value">${esc(text)}</textarea>
+    <span class="xb" onclick="delExp('${key}',${i})">✕</span>`;
+    c.appendChild(d);
+  });
+}
+function addExp(key){const arr=key==='going-well'?sessions[curr].levelling.goingWell:sessions[curr].levelling.toDevelop;arr.push('');renderExp(key,arr);}
+function delExp(key,i){const arr=key==='going-well'?sessions[curr].levelling.goingWell:sessions[curr].levelling.toDevelop;arr.splice(i,1);renderExp(key,arr);}
+
+// ════════════════════════════════
+// SECTIONS COLLAPSE
+// ════════════════════════════════
+function tog(id){
+  const b=document.getElementById(id+'-b');const t=document.getElementById(id+'-t');
+  const open=!b.classList.contains('hid');
+  b.classList.toggle('hid');t.textContent=open?'▸':'▾';
+}
+
+// ════════════════════════════════
+// VIEW SWITCH
+// ════════════════════════════════
+function showView(v,navEl){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelectorAll('.ni').forEach(el=>el.classList.remove('active'));
+  if(navEl)navEl.classList.add('active');
+  if(v==='dashboard')updateDash();
+}
+
+// ════════════════════════════════
+// DASHBOARD
+// ════════════════════════════════
+function updateDash(){
+  const allTodos=sessions.flatMap(s=>s.todos);
+  const done=allTodos.filter(t=>t.done).length;
+  const pending=allTodos.filter(t=>!t.done).length;
+  const lvlProg=sessions[0]?.levelling?.progress||0;
+  document.getElementById('d-sessions').textContent=sessions.length;
+  document.getElementById('d-done').textContent=done;
+  document.getElementById('d-pending').textContent=pending;
+  document.getElementById('d-level-pct').textContent=lvlProg+'%';
+  document.getElementById('d-level-bar').style.width=lvlProg+'%';
+
+  // to-do list
+  const evList=document.getElementById('ev-todo-list');
+  if(allTodos.length===0){evList.innerHTML='<p style="font-size:13px;color:var(--text-hint)">Nenhum To Do cadastrado ainda.</p>';}
+  else{
+    evList.innerHTML=allTodos.map(t=>`
+      <div class="ev-todo-row">
+        <div class="ev-cb${t.done?' done':''}">${t.done?'✓':''}</div>
+        <span style="flex:1;font-size:13px;${t.done?'text-decoration:line-through;color:var(--text-hint)':''}">${esc(t.text)}</span>
+        <span class="ev-own">${esc(t.owner)}</span>
+        <span style="font-size:10px;font-family:var(--mono);color:var(--text-hint);margin-left:8px">${esc(t.sessionTitle||'')}</span>
+      </div>`).join('');
+  }
+
+  // sessions history
+  const hist=document.getElementById('hist-list');
+  if(sessions.length===0){hist.innerHTML='<p style="font-size:13px;color:var(--text-hint)">Nenhuma sessão.</p>';}
+  else{
+    hist.innerHTML=sessions.map(s=>`
+      <div class="sess-row">
+        <span>${esc(s.title)}</span>
+        <span style="font-size:11px;font-family:var(--mono);color:var(--text-hint)">${s.todos.length} tarefas · ${s.combos.length} combinados · ${s.topics.length} pontos</span>
+      </div>`).join('');
+  }
+}
+
+// ════════════════════════════════
+// PDF REPORT (executive style)
+// ════════════════════════════════
+function openPDF(){
+  saveSession();
+  const s=sessions[curr];
+  const m=s.metrics;
+
+  const topicRows=s.topics.map(t=>`<div class="r-row"><span class="r-tag${t.status==='conversado'?' ok':''}">${t.status==='conversado'?'Conversado':'Pendente'}</span><span style="margin-left:8px">${esc(t.text)}</span></div>`).join('')||'<p style="color:#a78bca;font-size:12px">—</p>';
+  const pillarRows=s.pillars.map(p=>`<div class="r-row"><span class="r-tag${p.status==='concluída'?' ok':''}">${p.status}</span><span style="margin-left:8px">${esc(p.text)}</span></div>`).join('')||'<p style="color:#a78bca;font-size:12px">—</p>';
+  const comboRows=s.combos.map(c=>`<div class="r-row"><span>• ${esc(c)}</span></div>`).join('')||'<p style="color:#a78bca;font-size:12px">—</p>';
+  const todoRows=s.todos.map(t=>`<div class="r-row"><span class="r-tag${t.done?' done-tag':''}">${t.done?'Concluído':'Pendente'}</span><span style="margin-left:8px;flex:1">${esc(t.text)}</span><span class="r-tag" style="margin-left:4px">${esc(t.owner)}</span></div>`).join('')||'<p style="color:#a78bca;font-size:12px">—</p>';
+
+  const hasM=m.qualidade||m.ocupacao||m.jobs||m.skip;
+  const mBlock=hasM?`<div class="r-metric-row">
+    ${m.qualidade?`<div class="r-metric"><div class="r-metric-val">${m.qualidade}%</div><div class="r-metric-lbl">Qualidade</div><div class="r-metric-tgt">Meta: 100%</div></div>`:''}
+    ${m.ocupacao?`<div class="r-metric"><div class="r-metric-val">${m.ocupacao}%</div><div class="r-metric-lbl">Ocupação</div><div class="r-metric-tgt">Meta: 87%</div></div>`:''}
+    ${m.jobs?`<div class="r-metric"><div class="r-metric-val">${m.jobs}</div><div class="r-metric-lbl">Jobs/hora</div><div class="r-metric-tgt">Meta: 1,74</div></div>`:''}
+    ${m.skip?`<div class="r-metric"><div class="r-metric-val">${m.skip}%</div><div class="r-metric-lbl">Skip Rate</div><div class="r-metric-tgt">Meta: ≤ 0,03%</div></div>`:''}
+  </div>${s.metricsNotes?`<p style="font-size:12px;color:#6b4f8a;margin-top:8px;font-style:italic">${esc(s.metricsNotes)}</p>`:''}`:
+  '<p style="color:#a78bca;font-size:12px">Nenhuma métrica registrada.</p>';
+
+  const lvl=s.levelling;
+  const lvlBlock=`<p style="font-size:13px;margin-bottom:8px"><strong>Progressão IC3 → IC4:</strong> ${lvl.progress||0}%</p>
+    ${lvl.goingWell?.length?`<p style="font-size:12px;font-weight:600;margin-bottom:4px">Pontos positivos:</p>${lvl.goingWell.map(x=>`<p style="font-size:12px;padding-left:12px">• ${esc(x)}</p>`).join('')}`:''}
+    ${lvl.toDevelop?.length?`<p style="font-size:12px;font-weight:600;margin-top:8px;margin-bottom:4px">A desenvolver:</p>${lvl.toDevelop.map(x=>`<p style="font-size:12px;padding-left:12px">• ${esc(x)}</p>`).join('')}`:''}
+    ${s.levelNotes?`<p style="font-size:12px;color:#6b4f8a;margin-top:8px;font-style:italic">${esc(s.levelNotes)}</p>`:''}`;
+
+  document.getElementById('mo-body').innerHTML=`
+    <div class="r-cover">
+      <h1>Relatório de 1:1</h1>
+      <p>Raissa Martins · Katia Amaral · Nubank</p>
+      <div class="r-meta"><span>📅 ${esc(s.title)}</span><span>🎥 ${s.meetLink?`<a href="${s.meetLink}" style="color:var(--nu)">Google Meet</a>`:'—'}</span></div>
+    </div>
+    ${s.summary?`<div class="r-sec"><div class="r-sec-title">Resumo Executivo</div><p class="r-text">${esc(s.summary)}</p></div>`:''}
+    <div class="r-sec"><div class="r-sec-title">Indicadores de Performance</div>${mBlock}</div>
+    ${s.topics.length?`<div class="r-sec"><div class="r-sec-title">Pauta Discutida</div>${topicRows}</div>`:''}
+    ${s.feedback?`<div class="r-sec"><div class="r-sec-title">Feedbacks</div><p class="r-text">${esc(s.feedback)}</p></div>`:''}
+    ${s.blockers?`<div class="r-sec"><div class="r-sec-title">Bloqueios</div><p class="r-text">${esc(s.blockers)}</p></div>`:''}
+    ${s.pillars.length?`<div class="r-sec"><div class="r-sec-title">Atividades Pilar</div>${pillarRows}</div>`:''}
+    ${s.combos.length?`<div class="r-sec"><div class="r-sec-title">Combinados</div>${comboRows}</div>`:''}
+    ${s.todos.length?`<div class="r-sec"><div class="r-sec-title">To Do</div>${todoRows}</div>`:''}
+    <div class="r-sec"><div class="r-sec-title">Levelling — IC3 → IC4</div>${lvlBlock}</div>
+    ${s.transcriptLink?`<div class="r-sec"><div class="r-sec-title">Transcrição Gemini</div><p style="font-size:13px">📄 <a href="${esc(s.transcriptLink)}" target="_blank" style="color:var(--nu)">${esc(s.transcriptLink)}</a></p></div>`:''}
+    <div class="r-footer">Gerado em ${new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'})} — 1:1 Raissa ↔ Katia · Nubank</div>`;
+
+  document.getElementById('pdf-modal').classList.add('open');
+}
+function closePDF(){document.getElementById('pdf-modal').classList.remove('open');}
+
+// ════════════════════════════════
+// NEW SESSION
+// ════════════════════════════════
+function newSession(){
+  const d=new Date();
+  const label=d.toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
+  sessions.unshift({
+    id:Date.now(),title:label,meta:"1:1 - Raissa <> Katia",calLink:null,meetLink:null,
+    summary:"",transcriptLink:"",feedback:"",blockers:"",metricsNotes:"",levelNotes:"",
+    metrics:{qualidade:"",ocupacao:"",jobs:"",skip:""},
+    topics:[],pillars:[],combos:[],todos:[],
+    levelling:{progress:0,goingWell:[],toDevelop:[]}
+  });
+  const sc=document.getElementById('ss-scroll');const fg=sc.querySelector('.gl');
+  const div=document.createElement('div');div.className='si active';
+  div.innerHTML=`<div class="si-d">${label}</div><div class="si-p">Nova sessão…</div>`;
+  sc.insertBefore(div,fg.nextSibling);
+  refreshClicks();loadSession(0,sc.querySelectorAll('.si')[0]);showView('sessions');
+}
+function refreshClicks(){
+  document.querySelectorAll('#ss-scroll .si').forEach((el,i)=>{
+    el.onclick=(function(idx){return function(){loadSession(idx,this);};})(i);
+  });
+}
+
+// ════════════════════════════════
+// SEARCH / FILTER
+// ════════════════════════════════
+function filterSessions(q){
+  document.querySelectorAll('#ss-scroll .si').forEach((el,i)=>{
+    if(i>=sessions.length)return;
+    const s=sessions[i];
+    const hay=(s.title+s.summary+s.feedback+s.blockers).toLowerCase();
+    el.style.display=!q||hay.includes(q.toLowerCase())?'':'none';
+  });
+}
+function setTag(btn){document.querySelectorAll('.tb2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+
+// ════════════════════════════════
+// PHOTO
+// ════════════════════════════════
+function loadPhoto(input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const img=document.getElementById('av-img');const ini=document.getElementById('av-init');
+    img.src=e.target.result;img.style.display='block';ini.style.display='none';
+  };
+  r.readAsDataURL(file);
+}
+
+// ════════════════════════════════
+// UTILS
+// ════════════════════════════════
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+// init
+refreshClicks();loadSession(0,document.querySelector('.si'));
+</script>
+</body>
+</html>
